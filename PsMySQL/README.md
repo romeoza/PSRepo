@@ -54,54 +54,16 @@ $DB.
 on('table_name').
 choose(('col_one','col_two')).
 find((
-    "id[=], 2"
+    "id[=], 2" # [condition]
 )).
 load()
-#---------------------------------
-# WHERE id > 2
-$DB.
-on('table_name').
-choose(('col_one','col_two')).
-find((
-    "id[>], 2"
-)).
-load()
-#---------------------------------
-# WHERE id >= 2
-$DB.
-on('table_name').
-choose(('col_one','col_two')).
-find((
-    "id[>=], 2"
-)).
-load()
-#---------------------------------
-# WHERE id < 2
-$DB.
-on('table_name').
-choose(('col_one','col_two')).
-find((
-    "id[<], 2"
-)).
-load()
-#---------------------------------
-# WHERE id <= 2
-$DB.
-on('table_name').
-choose(('col_one','col_two')).
-find((
-    "id[<=], 2"
-)).
-load()
-#---------------------------------
-# WHERE id != 2
-$DB.
-on('table_name').
-choose(('col_one','col_two')).
-find((
-    "id[!=], 2"
-)).
-load()
+<# Valid conditions
+    "id[>], 2"[>]       # > 2
+    "id[<], 2"[<>]      # < 2
+    "id[>=], 2"         # >= 2
+    "id[<=], 2"         # <= 2
+    "id[!=], 2"         # != 2
+#>
 ```
 ##### Advanced Conditions
 ```powershell
@@ -125,4 +87,22 @@ find((
     "col_one[<~], ralp" # ENDS WITH
 )).
 load()
+<# Valid Conditions
+    "name[~], Mat"              # %Mat%
+    "id[!], 1:2:3"              # NOT IN (1,2,3)
+    "id[==], jack:jim:jill"     # IN ('jack','jim','jill')
+#>
+```
+#### INSERT
+Vanilla Insert
+```powershell
+# INSERT INTO table_name (`col_one`,`col_two`,`col_three`) VALUES ('we escape a \'','we escape a \\',24)
+$DB.
+on('table_name').
+commit((
+    "col_one := we escape a '",
+    "col_two := we escape a \",
+    "col_three := 24"
+)).
+save()
 ```
